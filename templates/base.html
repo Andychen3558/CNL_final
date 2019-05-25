@@ -1,0 +1,23 @@
+{% load staticfiles %} <!-- 導入 staticfiles -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{% block title %}{% endblock %}</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}"> <!-- 導入 css 文件 -->
+	{% block header_extends %}{% endblock %}  <!-- 用於擴展額外 css -->
+</head>
+<body>
+	<div class="all">
+		<h1>餐廳訂位系統</h1>
+		<!-- 連接回主頁 -->
+		<a href="{% url 'home' %}" class="logo">
+			<h3>主頁面</h3>
+		</a>
+		<a href="{% url 'sign:signUp' %}">註冊</a>
+		<a href="{% url 'sign:signIn' %}">登入</a>
+	</div>
+
+	{% block content %}{% endblock %}
+</body>
+</html>

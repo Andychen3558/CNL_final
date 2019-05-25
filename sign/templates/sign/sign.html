@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load staticfiles %} <!-- 加載靜態文件 -->
+
+{% block title %}使用者註冊/登入{% endblock %}
+
+{% block header_extends %} <!-- 導入 css 文件 -->
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %} 
+
+{% block content %}
+	{% if not isLogin %}
+	<form action="{% url 'sign:register' %}" method="post">
+		{% csrf_token %}
+		<div>帳號：<input type="text" name="username" id="username" /></div>
+        <div>密碼：<input type="password" name="password" id="password" /></div>
+        <div>
+        	<br>
+            <input type="submit" name="button" id="button" value="註冊" />
+        </div>
+	</form>
+
+	{% else %}
+	<form action="{% url 'sign:login' %}" method="post">
+		{% csrf_token %}
+		<div>帳號：<input type="text" name="username" id="username" /></div>
+        <div>密碼：<input type="password" name="password" id="password" /></div>
+        <div>
+        	<br>
+            <input type="submit" name="button" id="button" value="登入" />
+        </div>
+	</form>
+	{% endif %}
+{% endblock %}

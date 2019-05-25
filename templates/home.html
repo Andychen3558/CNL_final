@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load staticfiles %} <!-- 加載靜態文件 -->
+
+{% block title %}餐廳訂位＆排隊系統{% endblock %}
+
+{% block header_extends %} <!-- 導入 css 文件 -->
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %} 
+
+{% block content %}
+	<!-- 加入 class 標籤讓 css 文件辨別 -->
+	<h3 class="home-content">Welcome! {{ user }}</h3>
+{% endblock %}
