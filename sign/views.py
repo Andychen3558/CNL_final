@@ -4,26 +4,23 @@ from django.contrib import auth
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
-def signUp(request):
-	return render(request, 'sign/sign.html', {'isLogin':False})
-
-def signIn(request):
-	return render(request, 'sign/sign.html', {'isLogin':True})	
-
 def register(request):
-	username = request.POST['username']
-	try:
-		user = User.objects.get(username=username)
-	except:
-		user = None
-	if user != None:
-		msg = "帳號已經註冊！"
-		return redirect('/')
-		#return render(request, 'home.html', {'user':user})
-	# else:
-	# 	user = User.objects.create_user("")
+	if request.method != 'POST':
+		form = UserCreationForm()
+	else:
+		form = UserCreationForm(data=request.POST)
 
-def login(request):
-	username = request.POST['username']
+		if form.is_valid():
+			user = form.save()
+			authenticated_user = authenticate(username=user.username, password=request.POST['password1'])
+			auth.login(request, authenticated_user)
+			return HttpResponseRedirect(reverse('home'))
+	context = {'form':form}
+	return render(request, 'sign/register.html', context)
+
+def logout(request):
+	auth.logout(request)
+	return redirect('/')
