@@ -5,13 +5,15 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from .forms import SignUpForm
 
 # Create your views here.
 def register(request):
+	### request.method = GET代表進入註冊頁面, POST代表提交表單
 	if request.method != 'POST':
-		form = UserCreationForm()
+		form = SignUpForm()
 	else:
-		form = UserCreationForm(data=request.POST)
+		form = SignUpForm(data=request.POST)
 
 		if form.is_valid():
 			user = form.save()
@@ -23,4 +25,4 @@ def register(request):
 
 def logout(request):
 	auth.logout(request)
-	return redirect(reverse('home'))
+	return HttpResponseRedirect(reverse('home'))
