@@ -10,8 +10,13 @@ button {
 	transform: translate(10%);
 	cursor: pointer;
 }
-form {
 
+h2 {
+	text-align: center;
+	font-size:30px;
+}
+
+form {
 /* set width in form, not fieldset (still takes up more room w/ fieldset width */
 	font:100% verdana,arial,sans-serif;
 	font-size:24px;
