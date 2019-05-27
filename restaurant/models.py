@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 class Restaurant(models.Model):
-	name = models.CharField(max_length=100)
+	restaurant_name = models.CharField(max_length=100)
 	phone_number = models.CharField(max_length=20)
 	# # 座位數
 	# site_number = models.IntegerField(default=0)
@@ -25,4 +25,4 @@ class Restaurant(models.Model):
 	# 						size=8,
 	# 					)
 	def __str__(self):
-		return self.name
+		return self.restaurant_name

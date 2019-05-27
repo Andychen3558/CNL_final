@@ -6,8 +6,9 @@
     </head>
     <body>
         {% for r in restaurants %}
-            <h2>{{ r.name }}</h2>
+            <h2>{{ r.restaurant_name }}</h2>
             <h3>{{ r.phone_number }}</h3>
+            <input type="button" value="預約" onclick="location.href=''">
             <hr>
         {% endfor %}
     </body>
