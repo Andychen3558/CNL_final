@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+    <head>
+        <title> Restaurants </title>
+        <meta charset='utf-8'>
+    </head>
+    <body>
+        {% for r in restaurants %}
+            <h2>{{ r.restaurant_name }}</h2>
+            <h3>{{ r.phone_number }}</h3>
+            <input type="button" value="預約" onclick="location.href=''">
+            <hr>
+        {% endfor %}
+    </body>
+</html>
