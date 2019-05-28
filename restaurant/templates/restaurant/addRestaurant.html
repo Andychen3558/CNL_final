@@ -1,11 +1,22 @@
-<!doctype html>
-<html>
-	<body>
-		<form action="{% url 'restaurant:addRestaurant' %}" method="POST">
-		{% csrf_token %}
-		Restaurant name: <input type="text" name="restaurant_name"><br>
-		Phone nunber: <input type="text" name="phoneNumber"><br>
-		<input type="submit" value="提交">
-		</form>
-	</body>
-</html>
+{% extends './base.html' %}
+{% block titleblock %}<title></title>{% endblock %}
+{% block body %}
+<br>
+<div>
+<form action="/restaurant/addRestaurant/" method="POST">
+	{% csrf_token %}
+	<span class="badge badge-pill badge-secondary">餐廳名稱</span>
+	<input type="text" name="restaurant_name"><br>
+	<span class="badge badge-pill badge-secondary">餐廳電話</span>
+	<input type="text" name="phone_number"><br>
+	<span class="badge badge-pill badge-secondary">座位人數</span>
+	<input type="text" name="seat_number"><br>
+	<span class="badge badge-pill badge-secondary">過號時間限制</span>
+	<input type="text" name="timeout"><br>
+	<span class="badge badge-pill badge-secondary">平均用餐時間</span>
+	<input type="text" name="eat_time"><br>
+
+	<button type="submit" class="btn btn-secondary">Submit</button>
+</form>
+</div>
+{% endblock %}
