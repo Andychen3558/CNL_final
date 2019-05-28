@@ -10,7 +10,7 @@
 {% block content %}
 	<h2>Sign in</h2>
 	<br>
-	<form action="{% url 'sign:login' %}" method="post">
+	<form action="{% url 'users:login' %}" method="post">
 		{% csrf_token %}
 		{% for field in form %}
 	      <p>

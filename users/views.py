@@ -21,7 +21,7 @@ def register(request):
 			auth.login(request, authenticated_user)
 			return HttpResponseRedirect(reverse('home'))
 	context = {'form':form}
-	return render(request, 'sign/register.html', context)
+	return render(request, 'users/register.html', context)
 
 def logout(request):
 	auth.logout(request)
