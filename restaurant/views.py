@@ -1,4 +1,4 @@
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render, render_to_response, redirect
 from .models import Restaurant
 # Create your views here.
 
@@ -6,14 +6,15 @@ def addRestaurant(request):
 	if request.method == 'GET':
 		return render(request, 'restaurant/addRestaurant.html')
 	elif request.method == 'POST':
-		restaurant_instance = Restaurant.object.create(
+		print('!!!!!!', request.POST['restaurant_name'])
+		restaurant_instance = Restaurant.objects.create(
 									restaurant_name=request.POST['restaurant_name'],
-									phone_number=request.POST['phone_number']
+									# phone_number=request.POST['phoneNumber'],
 								)
 		restaurant_instance.save()
 		restaurants = Restaurant.objects.all()
 		context = {'restaurants':restaurants}
-		return render_to_response('restaurant/listRestaurant.html', context, context_instance=RequestContext(request))
+		return redirect('/restaurant/listRestaurant/')
 		# return render(request, 'restaurant/listRestaurant.html', context)
 	else:
 		restaurants = Restaurant.objects.all()
