@@ -6,7 +6,7 @@ def addRestaurant(request):
 	if request.method == 'GET':
 		return render(request, 'restaurant/addRestaurant.html')
 	elif request.method == 'POST':
-		print('!!!!!!', request.POST['restaurant_name'])
+		# print('???????', request.POST['restaurant_name'])
 		restaurant_instance = Restaurant.objects.create(
 									restaurant_name=request.POST['restaurant_name'],
 									# phone_number=request.POST['phoneNumber'],
