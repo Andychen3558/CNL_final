@@ -6,4 +6,5 @@ app_name = 'restaurant'
 urlpatterns = [
     path('addRestaurant/', views.addRestaurant, name='addRestaurant'),
     path('listRestaurant/', views.listRestaurant, name='listRestaurant'),
+    path('makeReserve/<str:reserve_restaurant_name>', views.makeReserve, name='makeReserve'),
 ]
