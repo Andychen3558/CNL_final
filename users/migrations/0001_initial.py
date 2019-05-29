@@ -33,6 +33,7 @@ class Migration(migrations.Migration):
                 ('phone_number', models.CharField(help_text='Required. Inform a valid phone number.', max_length=17, validators=[django.core.validators.RegexValidator(message="Phone number must be entered in the format: '09xxxxxxxx'", regex='^((?=(09))[0-9]{10})$')])),
                 ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.Group', verbose_name='groups')),
                 ('user_permissions', models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.Permission', verbose_name='user permissions')),
+                #('Arrive time'), models.DurationField(blank=True, verbose_name='Arrival time'),
             ],
             options={
                 'verbose_name': 'user',
