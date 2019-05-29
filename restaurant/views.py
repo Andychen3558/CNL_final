@@ -40,3 +40,6 @@ def listRestaurant(request):
 	restaurants = Restaurant.objects.all()
 	context = {'restaurants':restaurants}
 	return render(request, 'restaurant/listRestaurant.html', context)
+
+
+
