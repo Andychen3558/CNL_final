@@ -1,15 +1,17 @@
-<!doctype html>
-<html>
-    <head>
-        <title> Restaurants </title>
-        <meta charset='utf-8'>
-    </head>
-    <body>
-        {% for r in restaurants %}
-            <h2>{{ r.restaurant_name }}</h2>
-            <h3>{{ r.phone_number }}</h3>
-            <input type="button" value="預約" onclick="location.href=''">
-            <hr>
-        {% endfor %}
-    </body>
-</html>
+{% extends './base.html' %}
+{% block titleblock %}<title>餐廳列表</title>{% endblock %}
+{% block body %}
+<h3>餐廳資訊</h3>
+<br>
+<br>
+<hr class="my-4">
+{% for restaurant in restaurants %}
+<div>
+    <h5>餐廳名稱:<h5><small class="text-muted">{{restaurant.restaurant_name}}</small>
+    <h5>餐廳電話:<h5><small class="text-muted">{{restaurant.phone_number}}</small>
+    <h5>餐廳座位:<h5><small class="text-muted">{{restaurant.seat_number}}</small>
+    <hr class="my-4">
+
+</div>
+{% endfor %}
+{% endblock %}
