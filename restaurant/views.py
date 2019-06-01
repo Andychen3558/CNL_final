@@ -110,6 +110,8 @@ def makeReserve(request, reserve_restaurant_name):
 @login_required
 def takeSeat(request, reserve_restaurant_name):
 	restaurant_instance = Restaurant.objects.get(restaurant_name=reserve_restaurant_name)
+	if len(restaurant_instance.waiting_queue) == 0:
+		return redirect("/restaurant/addRestaurant/")
 	idx = restaurant_instance.waiting_queue[2:].find('||')
 	takeSeat_client = ''
 	if idx == -1:
@@ -128,9 +130,13 @@ def takeSeat(request, reserve_restaurant_name):
 	print("dining_time:", restaurant_instance.dining_time)
 
 	######### this need to be used to count average waiting time
-	##### 單一一位客人延遲時間
+	##### 單一一位客人延遲時間 = user.arrival_time
 	if restaurant_instance.coming_time != "":
 		lag_time = datetime.datetime.now() - datetime.datetime.strptime(restaurant_instance.coming_time, "%Y:%m:%d:%H:%M:%S")
+		uu = request.user
+		uu.arrival_time = lag_time
+		uu.save()
+		print(uu.arrival_time)
 		print(lag_time)
 
 	restaurant_instance.save()
@@ -140,6 +146,8 @@ def takeSeat(request, reserve_restaurant_name):
 @login_required
 def skip(request, reserve_restaurant_name):
 	restaurant_instance = Restaurant.objects.get(restaurant_name=reserve_restaurant_name)
+	if len(restaurant_instance.waiting_queue) == 0:
+		return redirect("/restaurant/addRestaurant/")
 	idx = restaurant_instance.waiting_queue[2:].find('||')
 	if idx == -1:
 		restaurant_instance.waiting_queue = ''
