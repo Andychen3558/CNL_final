@@ -32,4 +32,59 @@
 	{% endif %}
 </form>
 </div>
+<hr class="my-4">
+<br>
+{% if restaurant %}
+<div>
+	<table class="table table-sm" style="width: 50px; align: center;">
+		<thead>
+			<tr>
+				{% for tmp in r.waiting_queue_client %}
+				<th scope="col" style="width: 10px" >{{forloop.counter}}</th>
+				{% endfor %}
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				{% for name in r.waiting_queue_client %}
+				<td>{{name}}</td>
+				{% endfor %}
+			</tr>
+		</tbody>
+		<tbody>
+			<tr>
+				{% for name in r.waiting_queue_phone_number %}
+				<td>{{name}}</td>
+				{% endfor %}
+			</tr>
+		</tbody>
+	</table>
+	<button type="submit" class="btn btn-secondary" onclick="location.href='/restaurant/takeSeat/{{restaurant.restaurant_name}}'">帶位</button>
+	<button type="submit" class="btn btn-secondary" onclick="location.href='/restaurant/skip/{{restaurant.restaurant_name}}'">過號</button><br>
+</div>
+<hr class="my-4">
+
+<div>
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th scope="col">#</th>
+			<th scope="col">Name</th>
+			<th scope="col">Operation</th>
+			<!-- <th scope="col">Handle</th> -->
+		</tr>
+	</thead>
+	<tbody>
+	{% for tmp in r.dining_queue_client %}
+	<tr>
+		<th scope="row">{{forloop.counter}}</th>
+		<td>{{tmp}}</td>
+		<td><button type="submit" class="btn btn-secondary" onclick="location.href='/restaurant/eatFinish/{{tmp}}&{{r.name}}'">吃完</button></td>
+	</tr>
+	{% endfor %}
+	</tbody>
+</table>
+</div>
+{% endif %}
+
 {% endblock %}
