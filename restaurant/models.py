@@ -13,16 +13,17 @@ class Restaurant(models.Model):
 	skip_probability = models.FloatField(default=0.1)
 	# 過號時間限制
 	timeout = models.DurationField(default=timedelta(minutes=3))
+	# 進來時間
+	coming_time = models.TextField(default="")
 	# 預計吃多久
 	eat_time = models.DurationField(default=timedelta(minutes=30))
 
-	# 排隊資訊	柯//09||李//02
+	# 排隊資訊	||柯//09||李//02
 	waiting_queue = models.TextField(default="")
 	# 用餐資訊
 	dining_queue = models.TextField(default="")
-
-	# 進來時間
-	coming_time = models.DurationField(default=timedelta(minutes=1))
+	# 每位客人用餐時間紀錄 ||name/開始吃飯時間
+	dining_time = models.TextField(default="")
 
 	# 平均用餐時間
 	dining_time_average = models.FloatField(default=0.0)

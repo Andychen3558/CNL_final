@@ -14,14 +14,14 @@
 	<table class="table table-sm" style="width: 50px; align: center;">
 		<thead>
 			<tr>
-				{% for tmp in restaurant.waiting_queue %}
+				{% for tmp in restaurant.waiting_queue_client %}
 				<th scope="col" style="width: 10px" >{{forloop.counter}}</th>
 				{% endfor %}
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
-				{% for name in restaurant.waiting_queue %}
+				{% for name in restaurant.waiting_queue_client %}
 				<td>{{name}}</td>
 				{% endfor %}
 			</tr>
