@@ -7,10 +7,26 @@
 <hr class="my-4">
 {% for restaurant in restaurants %}
 <div>
-    <h5>餐廳名稱:<h5><small class="text-muted">{{restaurant.restaurant_name}}</small>
-    <h5>餐廳電話:<h5><small class="text-muted">{{restaurant.phone_number}}</small>
-    <h5>餐廳座位:<h5><small class="text-muted">{{restaurant.seat_number}}</small>
-    <h5>預估ㄉㄈㄈ:<h5><small class="text-muted">{{restaurant.seat_number}}</small>
+    <h5>餐廳名稱:<h5><small class="text-muted">{{restaurant.name}}</small>
+    <h5>餐廳電話:<h5><small class="text-muted">{{restaurant.phone}}</small>
+    <h5>餐廳座位:<h5><small class="text-muted">{{restaurant.seat}}</small><br>
+	<button type="submit" class="btn btn-secondary" onclick="location.href='/restaurant/makeReserve/{{restaurant.name}}'">訂位</button><br>
+	<table class="table table-sm" style="width: 50px; align: center;">
+		<thead>
+			<tr>
+				{% for tmp in restaurant.waiting_queue %}
+				<th scope="col" style="width: 10px" >{{forloop.counter}}</th>
+				{% endfor %}
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				{% for name in restaurant.waiting_queue %}
+				<td>{{name}}</td>
+				{% endfor %}
+			</tr>
+		</tbody>
+	</table>
     <hr class="my-4">
 
 </div>
