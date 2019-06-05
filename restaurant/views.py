@@ -3,16 +3,19 @@ from .models import Restaurant
 from django.contrib.auth.decorators import login_required
 from datetime import timedelta
 from django.contrib.auth.models import User
+from users.models import CustomUser
 import datetime
+from .module import wait_time
 # Create your views here.
 
 class res():
 
-	def __init__(self, name, phone, seat, waiting_queue, dining_queue=''):
+	def __init__(self, name, phone, seat, waiting_queue, wait_time='', dining_queue=''):
 
 		self.name = name
 		self.phone = phone
 		self.seat = seat
+		self.wait_time = wait_time
 		self.waiting_queue_client = [waiting_queue[i].split('/')[0] for i in range(1, len(waiting_queue))]
 		self.waiting_queue_phone_number = [waiting_queue[i].split('/')[1] for i in range(1, len(waiting_queue))]
 		self.dining_queue_client = [dining_queue[i].split('/')[0] for i in range(1, len(dining_queue))]
@@ -41,7 +44,7 @@ def addRestaurant(request):
 				restaurant_instance.phone_number, 
 				restaurant_instance.seat_number, 
 				restaurant_instance.waiting_queue.split('||'),
-				restaurant_instance.dining_queue.split('||'),
+				dining_queue=restaurant_instance.dining_queue.split('||'),
 				)
 			context['r'] = r
 		context['restaurant'] = restaurant_instance
@@ -59,7 +62,7 @@ def addRestaurant(request):
 			restaurant_instance.phone_number = request.POST['phone_number']
 			restaurant_instance.seat_number = request.POST['seat_number']
 			restaurant_instance.timeout = timedelta(minutes=timeString2Minute(request.POST['timeout']))
-			restaurant_instance.eat_time = timedelta(minutes=timeString2Minute(request.POST['eat_time']))
+			restaurant_instance.dining_time_average = timedelta(minutes=timeString2Minute(request.POST['eat_time'])).total_seconds() / 60
 
 			if restaurant_instance.restaurant_name == None or \
 			restaurant_instance.phone_number == None or \
@@ -83,11 +86,35 @@ def addRestaurant(request):
 def listRestaurant(request):
 	restaurants = Restaurant.objects.all()
 	r = []
+	waitTimelist = []
+
+	for restaurant in restaurants:
+		print("restaurant:", restaurant.waiting_queue.split("||"))	
+		wait_list = []
+		timeout=restaurant.timeout.total_seconds() / 60
+		skipprob=restaurant.skip_probability
+		client_names = []
+
+		for client_info in restaurant.waiting_queue.split('||'):
+			if len(client_info) == 0:
+				continue
+			client_names.append(client_info.split('/')[0])
+		UserArrivalTime = [CustomUser.objects.get(username=name).arrival_time.total_seconds() / 60 for name in client_names]
+		AverageDiningTime = restaurant.dining_time_average
+		TableNum = restaurant.seat_number
+		print("AverageDiningTime:{}".format(AverageDiningTime))
+		wait_list = wait_time.waiting_time_evaluate(timeout, skipprob, UserArrivalTime, AverageDiningTime, TableNum)
+		print("Evaluate average waiting time:{}".format(wait_list))
+		waitTimelist.append(wait_list)
+
+	count = 0
 	for restaurant_instance in restaurants:
 		r.append(res(restaurant_instance.restaurant_name, 
 			restaurant_instance.phone_number, 
 			restaurant_instance.seat_number, 
-			restaurant_instance.waiting_queue.split('||')))
+			restaurant_instance.waiting_queue.split('||'), 
+			wait_time=waitTimelist[count]))
+		count += 1
 	context = {'restaurants':r}
 	return render(request, 'restaurant/listRestaurant.html', context)
 
@@ -133,10 +160,12 @@ def takeSeat(request, reserve_restaurant_name):
 	##### 單一一位客人延遲時間 = user.arrival_time
 	if restaurant_instance.coming_time != "":
 		lag_time = datetime.datetime.now() - datetime.datetime.strptime(restaurant_instance.coming_time, "%Y:%m:%d:%H:%M:%S")
+		lag_time = wait_time.update_arrivetime(request.user.arrival_time.total_seconds(), lag_time.total_seconds())
+		lag_time = timedelta(seconds=lag_time)
 		uu = request.user
 		uu.arrival_time = lag_time
 		uu.save()
-		print(uu.arrival_time)
+		print("Name:{} lag_time:{}".format(uu.username, uu.arrival_time))
 		print(lag_time)
 
 	restaurant_instance.save()

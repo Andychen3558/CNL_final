@@ -26,6 +26,13 @@
 				{% endfor %}
 			</tr>
 		</tbody>
+		<tbody>
+			<tr>
+				{% for time in restaurant.wait_time %}
+				<td>{{time}}</td>
+				{% endfor %}
+			</tr>
+		</tbody>
 	</table>
     <hr class="my-4">
 
