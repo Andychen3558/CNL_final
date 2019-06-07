@@ -20,6 +20,8 @@ def calculate_max_reserve(timeout, table_number, average_dining_time):
 	value = 0.0
 	while(value < timeout):
 		k += 1
+		if k == table_number:
+			return k - 1
 		value += (float(average_dining_time) / (table_number - k))
 	return k
 
