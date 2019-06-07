@@ -16,9 +16,10 @@ def waiting_time_evaluate(timeout, skip_probability, arrive_time, average_dining
 	time[total_number - 1] = int(time[total_number - 1])
 	return time
 def calculate_max_reserve(timeout, table_number, average_dining_time):
-	k = 1
+	k = 0
 	value = 0.0
 	while(value < timeout):
+		k += 1
 		value += (float(average_dining_time) / (table_number - k))
 	return k
 
